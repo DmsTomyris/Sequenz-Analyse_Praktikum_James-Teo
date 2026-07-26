@@ -16,3 +16,15 @@ Dieses Verzeichnis bündelt die großen datenproduzierenden Methoden aus den Sta
 10. `10_hpc_cluster_workflow` – BMC-HPC, SLURM, Library-Mapping und Aggregation
 
 Die großen BAM-/FASTQ-Dateien bleiben an ihren bisherigen Speicherorten. Die Requirements nennen ihre Pfade und Formate, damit die Methoden reproduzierbar gestartet werden können.
+
+## Kuratierte Tag-4/5-Workflows
+
+`11_day4_day5_workflows` enthält die reproduzierbaren Steuer- und Auswertungsteile der späteren Workflows:
+
+- `main_reverse_complement` – gerichtete PAF-/Junction-Auswertung des Main-Workflows
+- `flye` – Flye-Retry und Fehlerbereinigung
+- `raven` – Raven-Fehlerklassifikation und Retry
+- `directional_ucsc` – gerichtete UCSC-Referenzen, Genome Hub und Mapping
+- `large_dataset_mapping` – MAPQ-20-Mapping großer FASTQ-Datensätze
+
+Jeder dieser Ordner enthält eine `WORKFLOW.md` und `requirements.md`. Rohdaten, große BAM/SAM/FASTQ-Bestände, Assemblies und Clusterlogs werden nicht versioniert.

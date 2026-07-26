@@ -1,0 +1,9 @@
+stage	job_id	dependency
+build	2071846	none
+mapping_array_failed_before_shell	2071847	afterok:2071846
+finalizer_cancelled_dependency_never_satisfied	2071848	afterok:2071847
+mapping_array_failed_marker_test	2072964	none
+finalizer_cancelled_dependency_never_satisfied	2072975	afterok:2072964
+mapping_array	2073203	none
+finalizer_array	2073204	afterok:2073203
+audit_finalizer	2073209	afterok:2073204
