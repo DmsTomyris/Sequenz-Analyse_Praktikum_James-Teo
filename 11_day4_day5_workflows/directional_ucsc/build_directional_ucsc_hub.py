@@ -26,6 +26,8 @@ YEAST_ORDER = [
     "I", "II", "III", "IV", "V", "VI", "VII", "VIII",
     "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "Mito",
 ]
+BACKBONE_LENGTH = 7158
+INSERT_INDEX = 4982
 
 
 def die(message):
@@ -354,8 +356,8 @@ def build_assembly(
         handle.write("chromosome_id\tleft_junction_0based\tright_junction_0based\n")
         for row in manifest_rows:
             insert_length = int(row["insert_length"])
-            handle.write("{}\t5042\t{}\n".format(
-                row["chromosome_id"], 5042 + insert_length
+            handle.write("{}\t{}\t{}\n".format(
+                row["chromosome_id"], INSERT_INDEX, INSERT_INDEX + insert_length
             ))
 
     structure = []
@@ -367,12 +369,12 @@ def build_assembly(
     for chromosome_id, sequence in plasmid_records:
         row = manifest_by_chrom[chromosome_id]
         insert_length = int(row["insert_length"])
-        insert_end = 5042 + insert_length
+        insert_end = INSERT_INDEX + insert_length
         structure.extend([
-            (chromosome_id, 0, 5042, "backbone_left", 0, "+", 0, 5042, "47,111,180"),
-            (chromosome_id, 5042, insert_end, "insert", 0, row["orientation"] == "normal" and "+" or "-", 5042, insert_end, "230,126,34"),
+            (chromosome_id, 0, INSERT_INDEX, "backbone_left", 0, "+", 0, INSERT_INDEX, "47,111,180"),
+            (chromosome_id, INSERT_INDEX, insert_end, "insert", 0, row["orientation"] == "normal" and "+" or "-", INSERT_INDEX, insert_end, "230,126,34"),
             (chromosome_id, insert_end, len(sequence), "backbone_right", 0, "+", insert_end, len(sequence), "47,111,180"),
-            (chromosome_id, 5041, 5042, "junction_left", 1000, "+", 5041, 5042, "200,35,51"),
+            (chromosome_id, INSERT_INDEX - 1, INSERT_INDEX, "junction_left", 1000, "+", INSERT_INDEX - 1, INSERT_INDEX, "200,35,51"),
             (chromosome_id, insert_end, min(insert_end + 1, len(sequence)), "junction_right", 1000, "+", insert_end, min(insert_end + 1, len(sequence)), "200,35,51"),
             (chromosome_id, 0, 1, "linear_origin", 1000, "+", 0, 1, "128,0,128"),
         ])
@@ -390,7 +392,7 @@ def build_assembly(
         )
         source_strand = "+" if row["orientation"] == "normal" else "-"
         insert_source.append((
-            chromosome_id, 5042, insert_end, source_name, score, source_strand
+            chromosome_id, INSERT_INDEX, insert_end, source_name, score, source_strand
         ))
 
         source_chr = row["source_chr"]
@@ -402,12 +404,12 @@ def build_assembly(
             if overlap_start >= overlap_end:
                 continue
             if row["orientation"] == "normal":
-                projected_start = 5042 + overlap_start - source_start
-                projected_end = 5042 + overlap_end - source_start
+                projected_start = INSERT_INDEX + overlap_start - source_start
+                projected_end = INSERT_INDEX + overlap_end - source_start
                 projected_strand = gene_strand
             else:
-                projected_start = 5042 + source_end - overlap_end
-                projected_end = 5042 + source_end - overlap_start
+                projected_start = INSERT_INDEX + source_end - overlap_end
+                projected_end = INSERT_INDEX + source_end - overlap_start
                 projected_strand = (
                     "-" if gene_strand == "+" else "+"
                     if gene_strand == "-" else "."
@@ -599,9 +601,9 @@ priority 32
             "<p>Each plasmid FASTA record is represented as a separate linear "
             "browser chromosome. The biological molecules are circular; coordinate "
             "0 is an artificial linear origin. The insert starts at 0-based "
-            "coordinate 5042.</p></body></html>".format(
+            "coordinate {}.</p></body></html>".format(
                 safe_html(assembly_name), safe_html(assembly_name),
-                threshold, safe_html(assembly_label)
+                threshold, safe_html(assembly_label), INSERT_INDEX
             )
         )
     return {
@@ -736,8 +738,8 @@ def main():
         if len(backbone_records) != 1:
             die("expected one backbone")
         backbone = backbone_records[0][1]
-        if len(backbone) != 7371:
-            die("expected 7371 bp backbone")
+        if len(backbone) != BACKBONE_LENGTH:
+            die("expected {} bp backbone".format(BACKBONE_LENGTH))
 
         direction_ids = [row["insert_id"] for row in direction_rows]
         if len(direction_ids) != len(set(direction_ids)):
@@ -757,9 +759,9 @@ def main():
                 die("metadata length mismatch for {}".format(insert_id))
             normal = reference_by_id[insert_id]
             reverse = reference_by_id[insert_id + "-revcomp"]
-            if normal != backbone[:5042] + insert + backbone[5042:]:
+            if normal != backbone[:INSERT_INDEX] + insert + backbone[INSERT_INDEX:]:
                 die("normal sequence mismatch for {}".format(insert_id))
-            if reverse != backbone[:5042] + revcomp(insert) + backbone[5042:]:
+            if reverse != backbone[:INSERT_INDEX] + revcomp(insert) + backbone[INSERT_INDEX:]:
                 die("reverse sequence mismatch for {}".format(insert_id))
 
         gff_genes = read_gff_genes(args.gff3)

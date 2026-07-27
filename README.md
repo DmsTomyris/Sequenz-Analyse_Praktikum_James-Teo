@@ -28,3 +28,11 @@ Die großen BAM-/FASTQ-Dateien bleiben an ihren bisherigen Speicherorten. Die Re
 - `large_dataset_mapping` – MAPQ-20-Mapping großer FASTQ-Datensätze
 
 Jeder dieser Ordner enthält eine `WORKFLOW.md` und `requirements.md`. Rohdaten, große BAM/SAM/FASTQ-Bestände, Assemblies und Clusterlogs werden nicht versioniert.
+
+## Aktuelle pGP95-Referenz
+
+`pGP95.fasta` enthält 1.747 gerichtete pGP95-Plasmidrecords mit dem experimentell
+bestätigten 7.158-bp-pGP564-Backbone. Die Insertsequenzen wurden gegenüber der
+vorherigen 7.371-bp-Version unverändert übernommen; der homologe Insert-Junction
+liegt jetzt bei 0-basiertem Index 4982. SHA-256:
+`033d3dd0ad3b69b7cac96fed7ed3f896e2c5cc48d9f71fa13dd5ed7ecadc995e`.

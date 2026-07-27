@@ -1,0 +1,21 @@
+{
+  "expected_new_total_sequence_bases": 31473443,
+  "fasta_reimport_matches_generated_records": true,
+  "insert_sequences_preserved": 1747,
+  "new_backbone_length_bp": 7158,
+  "new_backbone_sha256": "28b4ea07ab5f66d5bf6348cb46f869393f3f3aef20b00c3d5764a28c99b44da0",
+  "new_insert_index_0based": 4982,
+  "new_total_sequence_bases": 31473443,
+  "old_backbone_length_bp": 7371,
+  "old_backbone_sha256": "b3171c3568f405d16b4790ba9fb30c9509e74d34481430cfdb4f002e82a5f0f0",
+  "old_insert_index_0based": 5042,
+  "old_total_sequence_bases": 31845554,
+  "output_fasta_sha256": "033d3dd0ad3b69b7cac96fed7ed3f896e2c5cc48d9f71fa13dd5ed7ecadc995e",
+  "per_record_length_change_bp": -213,
+  "records": 1747,
+  "records_with_B7371_duplication_marker": 0,
+  "records_with_exactly_one_A7158_no153_marker": 1747,
+  "source_fasta_sha256": "76cda3e8ac18c70ff9bd5fde2d6ded7c7a09710b8c622b82987a32667f1dd305",
+  "status": "PASS",
+  "unique_record_ids": 1747
+}
